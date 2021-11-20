@@ -9,12 +9,12 @@ class Platform
 {
 public:
     ~Platform();
-    GLFWwindow *createWindow();
+    GLFWwindow *createWindow(int width, int height, bool fullScreen);
 
 private:
     GLFWwindow *window_;
     bool init_();
-    bool makeWindow_();
+    bool makeWindow_(int width, int height, bool fullScreen);
     bool createContext_();
     void logError_();
 };

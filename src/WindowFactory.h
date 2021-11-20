@@ -11,7 +11,8 @@ class WindowFactory
 {
 public:
     WindowFactory(Platform *platform) : platform_(platform) {}
-    Window *createWindow();
+    Window *createWindowForPi();
+    Window *createWindowForLaptop();
 
 private:
     Platform *platform_;

@@ -7,25 +7,9 @@
 
 #include "Platform.h"
 #include "Window.h"
+#include "Shader.h"
 #include "WindowFactory.h"
-
-std::string readFile(std::string path)
-{
-	std::stringstream buffer;
-	std::ifstream file(path);
-	if (file.is_open())
-	{
-		buffer << file.rdbuf();
-	}
-	else
-	{
-		std::cout << "could not read " << path << std::endl;
-	}
-
-	file.close();
-
-	return buffer.str();
-}
+#include "ShaderFactory.h"
 
 unsigned int createTriangle()
 {
@@ -54,67 +38,6 @@ unsigned int createTriangle()
 	return vao;
 }
 
-unsigned int createProgram()
-{
-	int success;
-	char log[512];
-	unsigned int vshader;
-	unsigned int fshader;
-	unsigned int program;
-	std::string vstring;
-	std::string fstring;
-	const char * vsource;
-	const char * fsource;
-
-	vstring = readFile("shaders/demo.vert.glsl");
-	fstring = readFile("shaders/demo.frag.glsl");
-
-	vsource = vstring.c_str();
-	fsource = fstring.c_str();
-
-	std::cout << "compiling vertex shader" << std::endl;
-
-	vshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vshader, 1, &vsource, NULL);
-	glCompileShader(vshader);
-	glGetShaderiv(vshader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vshader, 512, NULL, log);
-		std::cout << "vshader: " << log << std::endl;
-	}
-
-	std::cout << "compiling fragment shader" << std::endl;
-
-	fshader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fshader, 1, &fsource, NULL);
-	glCompileShader(fshader);
-	glGetShaderiv(fshader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fshader, 512, NULL, log);
-		std::cout << "fshader: " << log << std::endl;
-	}
-
-	std::cout << "linking program" << std::endl;
-
-	program = glCreateProgram();
-	glAttachShader(program, vshader);
-	glAttachShader(program, fshader);
-	glLinkProgram(program);
-	glGetProgramiv(program, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(program, 512, NULL, log);
-		std::cout << "link: " << log << std::endl;
-	}
-
-	glDeleteShader(vshader);
-	glDeleteShader(fshader);
-
-	return program;
-}
-
 void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -130,12 +53,16 @@ int main(void)
 
 	Platform *platform = new Platform();
 	WindowFactory *windowFactory = new WindowFactory(platform);
-	Window *window = windowFactory->createWindow();
+	Window *window = windowFactory->createWindowForLaptop();
 	
 	if (window)
 	{
+		ShaderFactory *shaderFactory = new ShaderFactory();
+		Shader *shader = shaderFactory->makeShader("shaders/demo.vert.glsl", "shaders/demo.frag.glsl");
+		delete shaderFactory;
+
 		glWindow = window->getWindow();
-		program = createProgram();
+		program = shader->getProgram();
 		vao = createTriangle();
 
 		glUseProgram(program);
@@ -150,6 +77,7 @@ int main(void)
 			glfwPollEvents();
 		}
 
+		delete shader;
 		ret = 0;
 	}
 
