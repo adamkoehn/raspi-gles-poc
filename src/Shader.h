@@ -1,11 +1,13 @@
 #ifndef SRC_SHADER
 #define SRC_SHADER
 
+#include <GL/glew.h>
+
 class Shader
 {
 public:
     Shader(unsigned int program) : program_(program) {}
-    unsigned int getProgram() { return program_; }
+    void use() { glUseProgram(program_); }
 
 private:
     unsigned int program_;

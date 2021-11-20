@@ -8,35 +8,10 @@
 #include "Platform.h"
 #include "Window.h"
 #include "Shader.h"
+#include "Triangle.h"
 #include "WindowFactory.h"
 #include "ShaderFactory.h"
-
-unsigned int createTriangle()
-{
-	unsigned int vao;
-	unsigned int vbo;
-
-	float verticies[] = {
-		0.0f, 0.5f, 0.0f, 0.0f, 1.0f, // top, blue
-		-0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // left, red
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // right, green
-	};
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 2));
-	glEnableVertexAttribArray(1);
-
-	return vao;
-}
+#include "PrimitiveFactory.h"
 
 void processInput(GLFWwindow *window)
 {
@@ -48,8 +23,6 @@ int main(void)
 {
 	int ret = 1;
 	GLFWwindow *glWindow;
-	unsigned int vao;
-	unsigned int program;
 
 	Platform *platform = new Platform();
 	WindowFactory *windowFactory = new WindowFactory(platform);
@@ -58,26 +31,26 @@ int main(void)
 	if (window)
 	{
 		ShaderFactory *shaderFactory = new ShaderFactory();
+		PrimitiveFactory *primitiveFactory = new PrimitiveFactory();
 		Shader *shader = shaderFactory->makeShader("shaders/demo.vert.glsl", "shaders/demo.frag.glsl");
+		Triangle *triangle = primitiveFactory->bufferTriangle();
 		delete shaderFactory;
+		delete primitiveFactory;
 
 		glWindow = window->getWindow();
-		program = shader->getProgram();
-		vao = createTriangle();
-
-		glUseProgram(program);
-		glBindVertexArray(vao);	
 
 		while (!glfwWindowShouldClose(glWindow))
 		{
 			processInput(glWindow);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			shader->use();
+			triangle->draw();
 			glfwSwapBuffers(glWindow);
 			glfwPollEvents();
 		}
 
 		delete shader;
+		delete triangle;
 		ret = 0;
 	}
 
