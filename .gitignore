@@ -1,1 +1,4 @@
+src/*.o
+
 log
+demo
