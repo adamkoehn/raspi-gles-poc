@@ -1,12 +1,12 @@
-#ifndef SRC_SHADER
-#define SRC_SHADER
+#ifndef SRC_DEMO_SHADER
+#define SRC_DEMO_SHADER
 
 #include <GL/glew.h>
 
-class Shader
+class DemoShader
 {
 public:
-    Shader(unsigned int program) : program_(program) {}
+    DemoShader(unsigned int program) : program_(program) {}
     void use() { glUseProgram(program_); }
 
 private:

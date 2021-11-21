@@ -5,8 +5,8 @@ LDLIBS = $(shell pkg-config --libs glfw3 glew)
 
 .PHONY: clean
 
-demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Triangle.o
-	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o $(LDLIBS)
+demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Triangle.o ShaderBuilder.o
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o src/ShaderBuilder.o $(LDLIBS)
 
 WindowFactory.o: src/WindowFactory.h src/WindowFactory.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/WindowFactory.o src/WindowFactory.cpp
@@ -23,5 +23,8 @@ PrimitiveFactory.o: src/PrimitiveFactory.h src/PrimitiveFactory.cpp
 Triangle.o: src/Triangle.h src/Triangle.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Triangle.o src/Triangle.cpp
 
+ShaderBuilder.o: src/ShaderBuilder.h src/ShaderBuilder.cpp
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/ShaderBuilder.o src/ShaderBuilder.cpp
+
 clean:
-	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o
+	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o src/ShaderBuilder.o

@@ -7,7 +7,7 @@
 
 #include "Platform.h"
 #include "Window.h"
-#include "Shader.h"
+#include "DemoShader.h"
 #include "Triangle.h"
 #include "WindowFactory.h"
 #include "ShaderFactory.h"
@@ -32,7 +32,7 @@ int main(void)
 	{
 		ShaderFactory *shaderFactory = new ShaderFactory();
 		PrimitiveFactory *primitiveFactory = new PrimitiveFactory();
-		Shader *shader = shaderFactory->makeShader("shaders/demo.vert.glsl", "shaders/demo.frag.glsl");
+		DemoShader *shader = shaderFactory->makeDemoShader();
 		Triangle *triangle = primitiveFactory->bufferTriangle();
 		delete shaderFactory;
 		delete primitiveFactory;
