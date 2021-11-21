@@ -22,30 +22,46 @@ void processInput(GLFWwindow *window)
 int main(void)
 {
 	int ret = 1;
+	float lastTime;
+	float deltaTime;
+	float currentTime;
 	GLFWwindow *glWindow;
 
 	Platform *platform = new Platform();
 	WindowFactory *windowFactory = new WindowFactory(platform);
 	Window *window = windowFactory->createWindowForLaptop();
-	
+
 	if (window)
 	{
 		ShaderFactory *shaderFactory = new ShaderFactory();
 		PrimitiveFactory *primitiveFactory = new PrimitiveFactory();
 		DemoShader *shader = shaderFactory->makeDemoShader();
-		Triangle *triangle = primitiveFactory->bufferTriangle();
+		Triangle *triangle = primitiveFactory->buildTriangle(shader);
 		delete shaderFactory;
 		delete primitiveFactory;
 
 		glWindow = window->getWindow();
 
+		lastTime = (float)glfwGetTime();
 		while (!glfwWindowShouldClose(glWindow))
 		{
+			currentTime = (float)glfwGetTime();
+			deltaTime = currentTime - lastTime;
+			lastTime = currentTime;
+
+			// process input
 			processInput(glWindow);
+
+			// update
+			triangle->update(deltaTime);
+
+			// draw
 			glClear(GL_COLOR_BUFFER_BIT);
 			shader->use();
 			triangle->draw();
 			glfwSwapBuffers(glWindow);
+
+			// system maintenance
 			glfwPollEvents();
 		}
 

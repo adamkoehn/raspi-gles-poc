@@ -8,7 +8,7 @@
 class PrimitiveFactory
 {
 public:
-    Triangle *bufferTriangle();
+    Triangle *buildTriangle(DemoShader *shader);
 };
 
 #endif /* SRC_PRIMITIVEFACTORY */
