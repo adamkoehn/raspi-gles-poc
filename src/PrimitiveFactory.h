@@ -3,12 +3,12 @@
 
 #include <GL/glew.h>
 
-#include "Triangle.h"
+#include "Cube.h"
 
 class PrimitiveFactory
 {
 public:
-    Triangle *buildTriangle(DemoShader *shader);
+    Cube *buildCube(DemoShader *shader);
 };
 
 #endif /* SRC_PRIMITIVEFACTORY */

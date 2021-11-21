@@ -65,6 +65,8 @@ bool Platform::createContext_()
     }
 
     glViewport(0, 0, 800, 480);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
 
     return true;
 }

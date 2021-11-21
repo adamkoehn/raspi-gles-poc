@@ -1,15 +1,16 @@
-#ifndef SRC_TRIANGLE
-#define SRC_TRIANGLE
+#ifndef SRC_CUBE
+#define SRC_CUBE
 
-#include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "DemoShader.h"
 
-class Triangle
+class Cube
 {
 public:
-    Triangle(DemoShader *shader, unsigned int vao);
+    Cube(DemoShader *shader, unsigned int vao);
+    void setup();
     void update(float deltaTime);
     void draw();
 
@@ -20,4 +21,4 @@ private:
     glm::mat4 model_;
 };
 
-#endif /* SRC_TRIANGLE */
+#endif /* SRC_CUBE */

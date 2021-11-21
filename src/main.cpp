@@ -1,14 +1,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
 
 #include "Platform.h"
 #include "Window.h"
 #include "DemoShader.h"
-#include "Triangle.h"
+#include "Camera.h"
+#include "Cube.h"
 #include "WindowFactory.h"
 #include "ShaderFactory.h"
 #include "PrimitiveFactory.h"
@@ -36,11 +33,19 @@ int main(void)
 		ShaderFactory *shaderFactory = new ShaderFactory();
 		PrimitiveFactory *primitiveFactory = new PrimitiveFactory();
 		DemoShader *shader = shaderFactory->makeDemoShader();
-		Triangle *triangle = primitiveFactory->buildTriangle(shader);
+		Camera *camera = new Camera(shader);
+		Cube *cube = primitiveFactory->buildCube(shader);
 		delete shaderFactory;
 		delete primitiveFactory;
 
 		glWindow = window->getWindow();
+
+		shader->use();
+		shader->setDefaultLightColor();
+		shader->setDefaultLightPosition();
+		camera->setProjection();
+		camera->setView();
+		cube->setup();
 
 		lastTime = (float)glfwGetTime();
 		while (!glfwWindowShouldClose(glWindow))
@@ -53,12 +58,11 @@ int main(void)
 			processInput(glWindow);
 
 			// update
-			triangle->update(deltaTime);
+			cube->update(deltaTime);
 
 			// draw
-			glClear(GL_COLOR_BUFFER_BIT);
-			shader->use();
-			triangle->draw();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			cube->draw();
 			glfwSwapBuffers(glWindow);
 
 			// system maintenance
@@ -66,7 +70,7 @@ int main(void)
 		}
 
 		delete shader;
-		delete triangle;
+		delete cube;
 		ret = 0;
 	}
 

@@ -5,8 +5,8 @@ LDLIBS = $(shell pkg-config --libs glfw3 glew)
 
 .PHONY: clean
 
-demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Triangle.o ShaderBuilder.o DemoShader.o
-	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o src/ShaderBuilder.o src/DemoShader.o $(LDLIBS)
+demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Cube.o ShaderBuilder.o DemoShader.o Camera.o
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/Cube.o src/PrimitiveFactory.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o $(LDLIBS)
 
 WindowFactory.o: src/WindowFactory.h src/WindowFactory.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/WindowFactory.o src/WindowFactory.cpp
@@ -20,8 +20,8 @@ ShaderFactory.o: src/ShaderFactory.h src/ShaderFactory.cpp
 PrimitiveFactory.o: src/PrimitiveFactory.h src/PrimitiveFactory.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/PrimitiveFactory.o src/PrimitiveFactory.cpp
 
-Triangle.o: src/Triangle.h src/Triangle.cpp
-	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Triangle.o src/Triangle.cpp
+Cube.o: src/Cube.h src/Cube.cpp
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Cube.o src/Cube.cpp
 
 ShaderBuilder.o: src/ShaderBuilder.h src/ShaderBuilder.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/ShaderBuilder.o src/ShaderBuilder.cpp
@@ -29,5 +29,8 @@ ShaderBuilder.o: src/ShaderBuilder.h src/ShaderBuilder.cpp
 DemoShader.o: src/DemoShader.h src/DemoShader.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/DemoShader.o src/DemoShader.cpp
 
+Camera.o: src/Camera.h src/Camera.cpp
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Camera.o src/Camera.cpp
+
 clean:
-	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Triangle.o src/ShaderBuilder.o src/DemoShader.o
+	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Cube.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o
