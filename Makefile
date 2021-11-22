@@ -5,7 +5,7 @@ LDLIBS = $(shell pkg-config --libs glfw3 glew)
 
 .PHONY: clean
 
-demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Cube.o ShaderBuilder.o DemoShader.o Camera.o Scene.o
+demo: src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Cube.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o src/Scene.o
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/Cube.o src/PrimitiveFactory.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o src/Scene.o $(LDLIBS)
 
 WindowFactory.o: src/WindowFactory.h src/WindowFactory.cpp
