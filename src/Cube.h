@@ -10,7 +10,8 @@ class Cube
 {
 public:
     Cube(DemoShader *shader, unsigned int vao);
-    void setup();
+    glm::vec3 getModelColor() { return glm::vec3(0.2f, 0.2f, 1.0f); }
+    glm::mat4 getModel() { return model_; }
     void update(float deltaTime);
     void draw();
 

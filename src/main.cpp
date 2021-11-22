@@ -6,6 +6,7 @@
 #include "DemoShader.h"
 #include "Camera.h"
 #include "Cube.h"
+#include "Scene.h"
 #include "WindowFactory.h"
 #include "ShaderFactory.h"
 #include "PrimitiveFactory.h"
@@ -26,7 +27,7 @@ int main(void)
 
 	Platform *platform = new Platform();
 	WindowFactory *windowFactory = new WindowFactory(platform);
-	Window *window = windowFactory->createWindowForLaptop();
+	Window *window = windowFactory->createWindowForPi();
 
 	if (window)
 	{
@@ -34,6 +35,7 @@ int main(void)
 		PrimitiveFactory *primitiveFactory = new PrimitiveFactory();
 		DemoShader *shader = shaderFactory->makeDemoShader();
 		Camera *camera = new Camera(shader);
+		Scene *scene = new Scene(shader, camera);
 		Cube *cube = primitiveFactory->buildCube(shader);
 		delete shaderFactory;
 		delete primitiveFactory;
@@ -41,11 +43,7 @@ int main(void)
 		glWindow = window->getWindow();
 
 		shader->use();
-		shader->setDefaultLightColor();
-		shader->setDefaultLightPosition();
-		camera->setProjection();
-		camera->setView();
-		cube->setup();
+		scene->setup();
 
 		lastTime = (float)glfwGetTime();
 		while (!glfwWindowShouldClose(glWindow))
@@ -62,13 +60,14 @@ int main(void)
 
 			// draw
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			cube->draw();
+			scene->drawCube(cube);
 			glfwSwapBuffers(glWindow);
 
 			// system maintenance
 			glfwPollEvents();
 		}
 
+		delete scene;
 		delete shader;
 		delete cube;
 		ret = 0;

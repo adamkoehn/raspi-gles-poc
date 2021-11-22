@@ -9,8 +9,8 @@ class Camera
 {
 public:
     Camera(DemoShader *shader);
-    void setProjection();
-    void setView();
+    glm::mat4 getProjection() { return projection_; }
+    glm::mat4 getView() { return view_; }
 
 private:
     DemoShader *shader_;

@@ -10,23 +10,30 @@ class DemoShader
 public:
     DemoShader(unsigned int program);
     void use();
-    void setModelColor(glm::vec3 color);
-    void setLightColor(glm::vec3 color);
-    void setLightPosition(glm::vec3 position);
-    void setProjection(glm::mat4 projection);
-    void setView(glm::mat4 view);
-    void setModel(glm::mat4 model);
-    void setDefaultLightColor();
-    void setDefaultLightPosition();
+    void setLightInfo(glm::vec4 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular);
+    void setMaterialInfo(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess);
+    void setModelViewMatrix(glm::mat4 modelViewMatrix);
+    void setNormalMatrix(glm::mat3 normalMatrix);
+    void setProjectionMatrix(glm::mat4 projectionMatrix);
 
 private:
     unsigned int program_;
-    unsigned int model_;
-    unsigned int view_;
-    unsigned int projection_;
-    unsigned int modelColor_;
-    unsigned int lightColor_;
-    unsigned int lightPosition_;
+    struct {
+        unsigned int position;
+        unsigned int ambient;
+        unsigned int diffuse;
+        unsigned int specular;
+    } lightInfo_;
+    struct {
+        unsigned int ambient;
+        unsigned int diffuse;
+        unsigned int specular;
+        unsigned int shininess;
+    } materialInfo_;
+    unsigned int modelViewMatrix_;
+    unsigned int normalMatrix_;
+    unsigned int projectionMatrix_;
+    unsigned int mvp_;
 };
 
 #endif /* SRC_SHADER */

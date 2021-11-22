@@ -5,8 +5,8 @@ LDLIBS = $(shell pkg-config --libs glfw3 glew)
 
 .PHONY: clean
 
-demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Cube.o ShaderBuilder.o DemoShader.o Camera.o
-	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/Cube.o src/PrimitiveFactory.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o $(LDLIBS)
+demo: src/main.cpp WindowFactory.o Platform.o ShaderFactory.o PrimitiveFactory.o Cube.o ShaderBuilder.o DemoShader.o Camera.o Scene.o
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -o demo src/main.cpp src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/Cube.o src/PrimitiveFactory.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o src/Scene.o $(LDLIBS)
 
 WindowFactory.o: src/WindowFactory.h src/WindowFactory.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/WindowFactory.o src/WindowFactory.cpp
@@ -32,5 +32,8 @@ DemoShader.o: src/DemoShader.h src/DemoShader.cpp
 Camera.o: src/Camera.h src/Camera.cpp
 	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Camera.o src/Camera.cpp
 
+Scene.o: src/Scene.h src/Scene.cpp
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o src/Scene.o src/Scene.cpp
+
 clean:
-	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Cube.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o
+	rm -f demo src/WindowFactory.o src/Platform.o src/ShaderFactory.o src/PrimitiveFactory.o src/Cube.o src/ShaderBuilder.o src/DemoShader.o src/Camera.o src/Scene.o
