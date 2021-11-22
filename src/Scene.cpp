@@ -15,13 +15,13 @@ void Scene::setup()
 {
     shader_->setLightInfo(
         glm::vec4(10.0f, 10.0f, 5.0f, 1.0f),
-        glm::vec3(0.2f, 0.2f, 0.2f),
         glm::vec3(0.5f, 0.5f, 0.5f),
+        glm::vec3(0.8f, 0.8f, 0.8f),
         glm::vec3(1.0f, 1.0f, 1.0f)
     );
     shader_->setMaterialInfo(
-        glm::vec3(0.31f, 0.5f, 1.0f),
-        glm::vec3(0.31f, 0.5f, 1.0f),
+        glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(1.0f, 1.0f, 1.0f),
         glm::vec3(0.5f, 0.5f, 0.5f),
         32.0f
     );
